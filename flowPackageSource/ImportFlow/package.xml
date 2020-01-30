@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ImportFlow</fullName>
+    <description>Packaging up the Flow Built for importing Discount Data</description>
+    <types>
+        <members>Fileback__c.Custom_Compact_Layout</members>
+        <name>CompactLayout</name>
+    </types>
+    <types>
+        <members>Fileback__c.Branch__c</members>
+        <members>Fileback__c.Calculated_Rebate_Amount__c</members>
+        <members>Fileback__c.Cust__c</members>
+        <members>Fileback__c.DDP_Category__c</members>
+        <members>Fileback__c.DDP__c</members>
+        <members>Fileback__c.Description__c</members>
+        <members>Fileback__c.Distributor__c</members>
+        <members>Fileback__c.Fileback_Month_Year__c</members>
+        <members>Fileback__c.IP_Number__c</members>
+        <members>Fileback__c.Import_Details__c</members>
+        <members>Fileback__c.Import_Status__c</members>
+        <members>Fileback__c.Inv_Date__c</members>
+        <members>Fileback__c.Inv__c</members>
+        <members>Fileback__c.Line__c</members>
+        <members>Fileback__c.Name__c</members>
+        <members>Fileback__c.Price__c</members>
+        <members>Fileback__c.Product__c</members>
+        <members>Fileback__c.Qty__c</members>
+        <members>Fileback__c.Sales__c</members>
+        <members>Fileback__c.Ship_To__c</members>
+        <members>Fileback__c.Suf__c</members>
+        <members>Fileback__c.Total_Rebate__c</members>
+        <members>Fileback__c.Unit_Rebate__c</members>
+        <members>Opportunity.IP_Approval_Number__c</members>
+        <members>Opportunity.IP_Expiration_Date__c</members>
+        <members>Opportunity.IP_Starting_Date__c</members>
+        <members>OpportunityLineItem.Margin__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Fileback__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Fileback_Processing</members>
+        <name>Flow</name>
+    </types>
+    <types>
+        <members>Fileback__c-Fileback Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Fileback__c.All</members>
+        <members>Fileback__c.Fileback_With_Status</members>
+        <name>ListView</name>
+    </types>
+    <version>47.0</version>
+</Package>

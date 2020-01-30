@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fileback_With_Status</fullName>
+    <columns>Distributor__c</columns>
+    <columns>Fileback_Month_Year__c</columns>
+    <columns>IP_Number__c</columns>
+    <columns>Product__c</columns>
+    <columns>DDP_Category__c</columns>
+    <columns>Inv_Date__c</columns>
+    <columns>Import_Status__c</columns>
+    <columns>Import_Details__c</columns>
+    <columns>Calculated_Rebate_Amount__c</columns>
+    <columns>Total_Rebate__c</columns>
+    <columns>Unit_Rebate__c</columns>
+    <columns>DDP__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>Fileback With Status</label>
+</ListView>

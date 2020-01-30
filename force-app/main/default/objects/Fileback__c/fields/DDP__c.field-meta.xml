@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DDP__c</fullName>
+    <externalId>false</externalId>
+    <formula>If(Contains(Description__c, &quot;BW&quot;),  227, 
+				If(Contains(Description__c, &quot;SOLID&quot;), 243, 
+								If(Contains(Description__c, &quot;SANDED&quot;), 285, 
+												If(Contains(Description__c, &quot;ASPEN&quot;), 333, 
+																If(Contains(Description__c, &quot;PEBBLE&quot;), 333, 
+																				If(Contains(Description__c, &quot;METALLIC&quot;), 333, 
+																								If(Contains(Description__c, &quot;QUARRY&quot;), 431, 
+																												If(Contains(Description__c, &quot;EARTHEN&quot;), 431, 
+																																If(Contains(Description__c, &quot;MOSAIC&quot;), 431, 
+																																				If(Contains(Description__c, &quot;TEMPEST&quot;), 473,
+																																							If(Contains(Description__c, &quot;SUPREME&quot;), 375, 
+			0)))))))))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>DDP</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

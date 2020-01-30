@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DDP_Category__c</fullName>
+    <externalId>false</externalId>
+    <formula>If(Contains(Description__c, &quot;BW&quot;),  &quot;BW&quot;, 
+				If(Contains(Description__c, &quot;SOLID&quot;), &quot;SOLID&quot;, 
+								If(Contains(Description__c, &quot;SANDED&quot;), &quot;SANDED&quot;, 
+												If(Contains(Description__c, &quot;ASPEN&quot;), &quot;ASPEN&quot;, 
+																If(Contains(Description__c, &quot;PEBBLE&quot;), &quot;PEBBLE&quot;, 
+																				If(Contains(Description__c, &quot;METALLIC&quot;), &quot;METALLIC&quot;, 
+																								If(Contains(Description__c, &quot;QUARRY&quot;), &quot;QUARRY&quot;, 
+																												If(Contains(Description__c, &quot;EARTHEN&quot;), &quot;EARTHEN&quot;, 
+																																If(Contains(Description__c, &quot;MOSAIC&quot;), &quot;MOSAIC&quot;, 
+																																				If(Contains(Description__c, &quot;TEMPEST&quot;), &quot;TEMPEST&quot;,
+																																							If(Contains(Description__c, &quot;SUPREME&quot;), &quot;SUPREME&quot;, 
+			&quot;&quot;)))))))))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>DDP Category</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

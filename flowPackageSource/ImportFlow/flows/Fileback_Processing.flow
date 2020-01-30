@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <name>Calculate_Rebate_Amount</name>
+        <label>Calculate Rebate Amount</label>
+        <locationX>964</locationX>
+        <locationY>670</locationY>
+        <assignmentItems>
+            <assignToReference>FilebackRecordBeingProcessed.Calculated_Rebate_Amount__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>RebateCalculation</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Rebate_Amount_Match</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Mark_File_Back_Rebates_Match</name>
+        <label>Mark File Back - Rebates Match</label>
+        <locationX>319</locationX>
+        <locationY>803</locationY>
+        <assignmentItems>
+            <assignToReference>FilebackRecordBeingProcessed.Import_Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Processed Successfully</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FilebackRecordBeingProcessed.Import_Details__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>GOOD</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Fileback_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Mark_File_Back_Row_Rebates_Don_t_Match</name>
+        <label>Mark File Back Row - Rebates Don&apos;t Match</label>
+        <locationX>338</locationX>
+        <locationY>652</locationY>
+        <assignmentItems>
+            <assignToReference>FilebackRecordBeingProcessed.Import_Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Error Encountered</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FilebackRecordBeingProcessed.Import_Details__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Rebate Amounts Don&apos;t Match</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Fileback_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Mark_Fileback_Row_No_Oppty_Found</name>
+        <label>Mark Fileback Row - No Oppty Found</label>
+        <locationX>535</locationX>
+        <locationY>216</locationY>
+        <assignmentItems>
+            <assignToReference>FilebackRecordBeingProcessed.Import_Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Error Encountered</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FilebackRecordBeingProcessed.Import_Details__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>No Opportunity Found</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Fileback_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Mark_Fileback_Row_Not_in_Date_Range</name>
+        <label>Mark Fileback Row - Not in Date Range</label>
+        <locationX>453</locationX>
+        <locationY>347</locationY>
+        <assignmentItems>
+            <assignToReference>FilebackRecordBeingProcessed.Import_Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Error Encountered</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FilebackRecordBeingProcessed.Import_Details__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Invoice Date Not in IP Date Range</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Fileback_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Could not fine Product Code</description>
+        <name>Mark_Fileback_Row_Product_Code_Not_Found</name>
+        <label>Mark Fileback Row - Product Code Not Found</label>
+        <locationX>411</locationX>
+        <locationY>499</locationY>
+        <assignmentItems>
+            <assignToReference>FilebackRecordBeingProcessed.Import_Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Error Encountered</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FilebackRecordBeingProcessed.Import_Details__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>No Matching Product Found</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Fileback_Record</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Is the IP Invoice date in start / effective date range?</description>
+        <name>IP_in_Date_Range</name>
+        <label>IP in Date Range</label>
+        <locationX>724</locationX>
+        <locationY>415</locationY>
+        <defaultConnector>
+            <targetReference>Mark_Fileback_Row_Not_in_Date_Range</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not in Date Range</defaultConnectorLabel>
+        <rules>
+            <name>IP_in_Date_Range_Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FilebackRecordBeingProcessed.Inv_Date__c</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Oppty_by_IP.IP_Starting_Date__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FilebackRecordBeingProcessed.Inv_Date__c</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Oppty_by_IP.IP_Expiration_Date__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Oppty_Product_By_Product_Code</targetReference>
+            </connector>
+            <label>IP in Date Range - Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Found an Opportunity for that IP Number</description>
+        <name>Opportunity_Exists</name>
+        <label>Opportunity Exists</label>
+        <locationX>725</locationX>
+        <locationY>227</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Found_an_Oppty_for_that_IP_Number</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Oppty_by_IP</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>IP_in_Date_Range</targetReference>
+            </connector>
+            <label>Found an Oppty for that IP Number</label>
+        </rules>
+        <rules>
+            <name>Did_Not_Find_Oppty_Based_on_IP_Num</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Oppty_by_IP</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Mark_Fileback_Row_No_Oppty_Found</targetReference>
+            </connector>
+            <label>Did Not Find Oppty Based on IP Num</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if Product Code that matches</description>
+        <name>Product_Code_Check</name>
+        <label>Product Code Check</label>
+        <locationX>724</locationX>
+        <locationY>530</locationY>
+        <defaultConnector>
+            <targetReference>Mark_Fileback_Row_Product_Code_Not_Found</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Product Found</defaultConnectorLabel>
+        <rules>
+            <name>Opportunity_Product_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Oppty_Product_By_Product_Code</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Calculate_Rebate_Amount</targetReference>
+            </connector>
+            <label>Opportunity Product Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Does Rebate from Fileback Match Calculation?</description>
+        <name>Rebate_Amount_Match</name>
+        <label>Rebate Amount Match?</label>
+        <locationX>731</locationX>
+        <locationY>682</locationY>
+        <defaultConnector>
+            <targetReference>Mark_File_Back_Row_Rebates_Don_t_Match</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Rebates Don&apos;t Match</defaultConnectorLabel>
+        <rules>
+            <name>Rebates_Match</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FilebackRecordBeingProcessed.Total_Rebate__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>FilebackRecordBeingProcessed.Calculated_Rebate_Amount__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Mark_File_Back_Rebates_Match</targetReference>
+            </connector>
+            <label>Rebates Match</label>
+        </rules>
+    </decisions>
+    <description>Take &quot;New&quot; Fileback records and apply them to Opportunities</description>
+    <formulas>
+        <description>Rebate Calculation - (Sales Price * Profit Margin) + (Sales Price - DDP)</description>
+        <name>RebateCalculation</name>
+        <dataType>Number</dataType>
+        <expression>(({!Get_Oppty_Product_By_Product_Code.UnitPrice} * {!Get_Oppty_Product_By_Product_Code.Margin__c}) + ({!FilebackRecordBeingProcessed.DDP__c} -{!Get_Oppty_Product_By_Product_Code.UnitPrice} ) )* {!FilebackRecordBeingProcessed.Qty__c}</expression>
+        <scale>2</scale>
+    </formulas>
+    <interviewLabel>Fileback Processing {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Fileback Processing -v7</label>
+    <loops>
+        <name>For_Each_New_Fileback_Record</name>
+        <label>For Each New Fileback Record</label>
+        <locationX>334</locationX>
+        <locationY>50</locationY>
+        <assignNextValueToReference>FilebackRecordBeingProcessed</assignNextValueToReference>
+        <collectionReference>Get_Fileback_Records_To_Process</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Get_Oppty_by_IP</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get Fileback Rows to look through</description>
+        <name>Get_Fileback_Records_To_Process</name>
+        <label>Get Fileback Records To Process</label>
+        <locationX>170</locationX>
+        <locationY>50</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>For_Each_New_Fileback_Record</targetReference>
+        </connector>
+        <filters>
+            <field>Import_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Fileback__c</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>IP_Number__c</queriedFields>
+        <queriedFields>Description__c</queriedFields>
+        <queriedFields>Inv_Date__c</queriedFields>
+        <queriedFields>Qty__c</queriedFields>
+        <queriedFields>Sales__c</queriedFields>
+        <queriedFields>Price__c</queriedFields>
+        <queriedFields>Unit_Rebate__c</queriedFields>
+        <queriedFields>Total_Rebate__c</queriedFields>
+        <queriedFields>Product__c</queriedFields>
+        <queriedFields>Import_Status__c</queriedFields>
+        <queriedFields>Import_Details__c</queriedFields>
+        <queriedFields>DDP__c</queriedFields>
+        <queriedFields>DDP_Category__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get the Opportunity Record by IP Number</description>
+        <name>Get_Oppty_by_IP</name>
+        <label>Get Oppty by IP</label>
+        <locationX>730</locationX>
+        <locationY>96</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Opportunity_Exists</targetReference>
+        </connector>
+        <filters>
+            <field>IP_Approval_Number__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>FilebackRecordBeingProcessed.IP_Number__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>IP_Starting_Date__c</queriedFields>
+        <queriedFields>IP_Expiration_Date__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get the Products on the Oppty that match the Code in the Fileback Record</description>
+        <name>Get_Oppty_Product_By_Product_Code</name>
+        <label>Get Oppty Product By Product Code</label>
+        <locationX>899</locationX>
+        <locationY>472</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Product_Code_Check</targetReference>
+        </connector>
+        <filters>
+            <field>Description</field>
+            <operator>Contains</operator>
+            <value>
+                <elementReference>FilebackRecordBeingProcessed.DDP_Category__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>OpportunityId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Oppty_by_IP.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OpportunityLineItem</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>UnitPrice</queriedFields>
+        <queriedFields>Margin__c</queriedFields>
+        <queriedFields>ListPrice</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Fileback_Record</name>
+        <label>Update Fileback Record</label>
+        <locationX>338</locationX>
+        <locationY>216</locationY>
+        <connector>
+            <targetReference>For_Each_New_Fileback_Record</targetReference>
+        </connector>
+        <inputReference>FilebackRecordBeingProcessed</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Get_Fileback_Records_To_Process</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>FilebackRecordBeingProcessed</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Fileback__c</objectType>
+    </variables>
+</Flow>
